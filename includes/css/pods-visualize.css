@@ -1,0 +1,9 @@
+.marker-arrowhead,
+.link-tools {
+	/*display: none*/
+}
+.connection-wrap,
+.connection,
+.labels {
+	pointer-events: none;
+}
