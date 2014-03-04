@@ -1,4 +1,4 @@
-=== @TODO: Plugin Name ===
+=== Pods Visualize ===
 Contributors: pglewis
 Donate link: http://pods.io/
 Tags: pods
@@ -9,12 +9,3 @@ License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 Visualize your Pods Framework relationships
-
-== Description ==
-
-This is the long description.  No limit, and you can use Markdown (as well as in the following sections).
-
-This plugin requires the [Pods Framework](http://wordpress.org/plugins/pods/) to run.
-
-== Changelog ==
-
