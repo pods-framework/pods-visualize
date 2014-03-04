@@ -7,7 +7,7 @@
 
 		// ToDo: Magic numbers
 		var y_offset = 70;
-		var x_offset = 500;
+		var x_offset = 400;
 		var element_size = {
 			width: 200,
 			height: 50
@@ -33,7 +33,6 @@
 		var element = function( x, y, label ) {
 
 			var new_element = new joint.shapes.basic.Rect( {
-				// ToDo: magic numbers
 				size: element_size,
 				position: { x: x,  y: y }
 			} );
