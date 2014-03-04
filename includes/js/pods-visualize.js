@@ -86,24 +86,34 @@
 		// Iterate the pods
 		var y = 10;
 		var x = 10;
-		for ( var key in pod_data ) {
-			var this_pod = pod_data[ key ];
+		for ( var pod_key in pod_data ) {
+
+			if ( !pod_data.hasOwnProperty( pod_key ) ) {
+				continue;
+			}
+
+			var this_pod = pod_data[ pod_key ];
 			var new_y = y;
 
 			var pod_element = element( x, y, this_pod.name );
 
 			// Iterate the fields in this pod
-			for ( var key in this_pod.fields ) {
+			for ( var field_key in this_pod.fields ) {
 
-				var this_field = this_pod.fields[ key ];
+				if ( !this_pod.fields.hasOwnProperty( field_key ) ) {
+					continue;
+				}
+
+				var this_field = this_pod.fields[ field_key ];
 
 				if ( 'pick' == this_field.type ) {
 
-					if ( 'pod' == this_field.pick_object ) {
-						var related_element_name = this_field.pick_val;
+					var related_element_name = '';
+					if ( 'pod' == this_field[ 'pick_object' ] ) {
+						related_element_name = this_field[ 'pick_val' ];
 					}
 					else {
-						var related_element_name = this_field.pick_object;
+						related_element_name = this_field['pick_object'];
 					}
 
 					var related_element = element( x + x_offset, new_y, related_element_name );

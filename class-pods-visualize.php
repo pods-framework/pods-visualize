@@ -14,7 +14,7 @@ class Pods_Visualize {
 	const VERSION = '1.0.0';
 
 	/**
-	 * Unique identifier for your plugin.
+	 * Unique identifier
 	 *
 	 * The variable name is used as the text domain when internationalizing strings
 	 * of text. Its value should match the Text Domain file header in the main
@@ -95,7 +95,7 @@ class Pods_Visualize {
 	}
 
 	/**
-	 * Register the administration menu for this plugin into the WordPress Dashboard menu.
+	 * Register the menu
 	 *
 	 * @since    1.0.0
 	 */
