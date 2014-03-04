@@ -4,8 +4,14 @@
 	$(function () {
 
 		var pod_data = pods_visualization_data; // global, passed via wp_localize_script
+
+		// ToDo: Magic numbers
 		var y_offset = 70;
 		var x_offset = 500;
+		var element_size = {
+			width: 200,
+			height: 50
+		};
 
 		var graph = new joint.dia.Graph;
 
@@ -28,14 +34,8 @@
 
 			var new_element = new joint.shapes.basic.Rect( {
 				// ToDo: magic numbers
-				size: {
-					width: 200,
-					height: 50
-				},
-				position: {
-					x: x,
-					y: y
-				}
+				size: element_size,
+				position: { x: x,  y: y }
 			} );
 
 			new_element.attr( {
@@ -95,6 +95,7 @@
 
 			// Iterate the fields in this pod
 			for ( var key in this_pod.fields ) {
+
 				var this_field = this_pod.fields[ key ];
 
 				if ( 'pick' == this_field.type ) {
@@ -112,9 +113,7 @@
 					related_element_link.label( 0, {
 						position: .7,
 						attrs: {
-							text: {
-								text: this_field.name
-							}
+							text: { text: this_field.name }
 						}
 					} );
 
@@ -130,6 +129,10 @@
 				// Subtract out the final increment and center vertically
 				parent_y -= y_offset;
 				parent_y /= 2;
+			}
+			else {
+				// No relationships pushed the y offset, so add it
+				new_y += y_offset;
 			}
 
 			// Re-position the parent pod
