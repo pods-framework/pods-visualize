@@ -137,13 +137,15 @@ class Pods_Visualize {
 		}
 
 		$screen = get_current_screen();
-		if ( $this->plugin_screen_hook_suffix == $screen->id ) {
+		if ( $this->plugin_screen_hook_suffix == $screen->id  && function_exists( 'pods' ) ) {
+
 			wp_enqueue_script( 'jointjs', PODS_VISUALIZE_URL . 'includes/jointjs/joint.min.js' );
 			wp_enqueue_script( $this->plugin_slug . '-admin-script', PODS_VISUALIZE_URL . 'includes/js/pods-visualize.js', array( 'jquery', 'jointjs' ), Pods_Visualize::VERSION );
 
 			// Pass pod and field info to the js
 			$pods = pods_api()->load_pods();
 			wp_localize_script( $this->plugin_slug . '-admin-script', 'pods_visualization_data', $pods );
+
 		}
 
 	}
@@ -312,32 +314,6 @@ class Pods_Visualize {
 		load_textdomain( $domain, trailingslashit( WP_LANG_DIR ) . $domain . '/' . $domain . '-' . $locale . '.mo' );
 		load_plugin_textdomain( $domain, FALSE, basename( plugin_dir_path( dirname( __FILE__ ) ) ) . '/languages/' );
 
-	}
-
-	/**
-	 * NOTE:  Actions are points in the execution of a page or process
-	 *        lifecycle that WordPress fires.
-	 *
-	 *        Actions:    http://codex.wordpress.org/Plugin_API#Actions
-	 *        Reference:  http://codex.wordpress.org/Plugin_API/Action_Reference
-	 *
-	 * @since    1.0.0
-	 */
-	public function action_method_name() {
-		// @TODO: Define your action hook callback here
-	}
-
-	/**
-	 * NOTE:  Filters are points of execution in which WordPress modifies data
-	 *        before saving it or sending it to the browser.
-	 *
-	 *        Filters: http://codex.wordpress.org/Plugin_API#Filters
-	 *        Reference:  http://codex.wordpress.org/Plugin_API/Filter_Reference
-	 *
-	 * @since    1.0.0
-	 */
-	public function filter_method_name() {
-		// @TODO: Define your filter hook callback here
 	}
 
 }
