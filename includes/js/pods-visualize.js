@@ -98,7 +98,6 @@
 				var this_field = this_pod.fields[ key ];
 
 				if ( 'pick' == this_field.type ) {
-					console.log( this_field );
 
 					if ( 'pod' == this_field.pick_object ) {
 						var related_element_name = this_field.pick_val;
