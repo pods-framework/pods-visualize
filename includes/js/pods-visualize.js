@@ -5,6 +5,19 @@
 
 		var pod_data = pods_visualization_data; // global, passed via wp_localize_script
 
+		var color_codes = {
+			'post_type': '#88aacc',
+			'cpt': '#88aacc',
+			'taxonomy': '#FBEC5D',
+			'ct': '#FBEC5D',
+			'user': '#CDB38B',
+			'media': '#FFA54F',
+			'comment': '#ecf0f1',
+			'pod': '#A2C257',
+			'settings': '#dddde5',
+			'custom-simple': '#ffffff'
+		};
+
 		// ToDo: Magic numbers
 		var y_offset = 70;
 		var x_offset = 400;
@@ -30,7 +43,7 @@
 		 * @param label
 		 * @returns joint.shapes.basic.Rect
 		 */
-		var element = function( x, y, label ) {
+		var element = function( x, y, label, fill ) {
 
 			var new_element = new joint.shapes.basic.Rect( {
 				size: element_size,
@@ -39,7 +52,7 @@
 
 			new_element.attr( {
 				rect: {
-					fill: '#ecf0f1',
+					fill: fill,
 					rx: 5,
 					ry: 10,
 					'stroke-width': "2",
@@ -125,7 +138,7 @@
 			var this_pod = pod_data[ pod_key ];
 			var new_y = y;
 
-			var pod_element = element( x, y, this_pod.name );
+			var pod_element = element( x, y, this_pod.name, color_codes[ this_pod.type ] );
 
 			// Iterate the fields in this pod
 			for ( var field_key in this_pod.fields ) {
@@ -146,8 +159,8 @@
 						related_element_name = this_field['pick_object'];
 					}
 
-					var related_element = element( x + x_offset, new_y, related_element_name );
-					link ( pod_element, related_element, this_field.name, this_field.sister_id );
+					var related_element = element( x + x_offset, new_y, related_element_name, color_codes[ this_field[ 'pick_object' ] ] );
+					link ( pod_element, related_element, this_field.name, this_field[ 'sister_id' ] );
 
 					new_y += y_offset;
 				}

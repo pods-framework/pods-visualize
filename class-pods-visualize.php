@@ -143,6 +143,7 @@ class Pods_Visualize {
 			wp_enqueue_script( $this->plugin_slug . '-admin-script', PODS_VISUALIZE_URL . 'includes/js/pods-visualize.js', array( 'jquery', 'jointjs' ), Pods_Visualize::VERSION );
 
 			// Pass pod and field info to the js
+			// ToDo: full data dump was for prototyping only.  Only send what is needed in a data structure ready to be consumed on the js side
 			$pods = pods_api()->load_pods();
 			wp_localize_script( $this->plugin_slug . '-admin-script', 'pods_visualization_data', $pods );
 
