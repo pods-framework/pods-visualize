@@ -59,25 +59,55 @@
 		};
 
 		/**
-		 *
-		 * @param elm1
+ 		 * @param elm1
 		 * @param elm2
-		 * @returns joint.dia.Link
+		 * @param label
+		 * @param bidirectional
+		 * @returns {Link}
 		 */
-		var link = function( elm1, elm2 ) {
+		var link = function( elm1, elm2, label, bidirectional ) {
 
 			var new_link = new joint.dia.Link( {
 				source: { id: elm1.id },
 				target: { id: elm2.id }
 			} );
 
+			// Link attributes
 			new_link.attr( {
 				'.connection': {
 					stroke: '#bdc3c7',
 					'stroke-width': 2
+				},
+				'.marker-target': {
+					fill: '#bdc3c7',
+					d: 'M 10 0 L 0 5 L 10 10 z'
 				}
 			} );
+
+			if ( bidirectional ) {
+				new_link.attr( {
+					'.marker-source': {
+						fill: '#bdc3c7',
+						d: 'M 10 0 L 0 5 L 10 10 z'
+					}
+				} );
+			}
+
+			// Link presentation
 			new_link.set( 'smooth', true );
+
+			// Link label
+			new_link.label( 0, {
+				position: .7,
+				attrs: {
+					text: {
+						text: label,
+						'font-family': 'Courier New',
+						'font-size': 11
+					}
+				}
+			} );
+
 
 			graph.addCell( new_link );
 			return new_link;
@@ -117,14 +147,7 @@
 					}
 
 					var related_element = element( x + x_offset, new_y, related_element_name );
-					var related_element_link = link ( pod_element, related_element );
-
-					related_element_link.label( 0, {
-						position: .7,
-						attrs: {
-							text: { text: this_field.name }
-						}
-					} );
+					link ( pod_element, related_element, this_field.name, this_field.sister_id );
 
 					new_y += y_offset;
 				}
