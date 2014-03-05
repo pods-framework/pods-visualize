@@ -33,14 +33,6 @@ if ( ! defined( 'WPINC' ) ) {
 }
 
 /*
- * Register hooks that are fired when the plugin is activated or deactivated.
- * When the plugin is deleted, the uninstall.php file is loaded.
- *
- */
-register_activation_hook( __FILE__, array( 'Pods_Visualize', 'activate' ) );
-register_deactivation_hook( __FILE__, array( 'Pods_Visualize', 'deactivate' ) );
-
-/*
  * If you want to include Ajax within the dashboard, change the following
  * conditional to:
  *
