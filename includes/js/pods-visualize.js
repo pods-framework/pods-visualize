@@ -5,6 +5,8 @@
 
 		var pod_data = pods_visualization_data; // global, passed via wp_localize_script
 
+		var single_fill = '#bdc3c7';
+		var multi_fill = '#dd2222';
 		var color_codes = {
 			'post_type': '#88aacc',
 			'cpt': '#88aacc',
@@ -36,14 +38,67 @@
 			model: graph
 		} );
 
+
+		// Iterate the pods
+		var y = 10;
+		var x = 10;
+		for ( var pod_key in pod_data ) {
+
+			if ( !pod_data.hasOwnProperty( pod_key ) ) {
+				continue;
+			}
+
+			var this_pod = pod_data[ pod_key ];
+			var new_y = y;
+
+			var pod_element = element( x, y, this_pod[ 'name' ], color_codes[ this_pod[ 'type' ] ] );
+
+			// Iterate the fields in this pod
+			for ( var relationship_field_name in this_pod[ 'relationships' ] ) {
+
+				if ( !this_pod[ 'relationships' ].hasOwnProperty( relationship_field_name ) ) {
+					continue;
+				}
+
+				var this_relationship = this_pod[ 'relationships' ][ relationship_field_name ];
+
+				var related_element = element( x + x_offset, new_y, this_relationship[ 'related_pod_name' ], color_codes[ this_relationship[ 'type' ] ] );
+				link ( pod_element, related_element, relationship_field_name, this_relationship[ 'is_multi' ], this_relationship[ 'bidirectional' ] );
+
+				new_y += y_offset;
+			}
+
+			var parent_y = new_y - y;
+
+			// Any relationships?
+			if ( 0 != parent_y ) {
+
+				// Subtract out the final increment and center vertically
+				parent_y -= y_offset;
+				parent_y /= 2;
+			}
+			else {
+				// No relationships pushed the y offset, so add it
+				new_y += y_offset;
+			}
+
+			// Re-position the parent pod
+			pod_element.translate( x, parent_y );
+
+			y = new_y;
+		}
+
+		paper.fitToContent( 1, 1, 100 );
+
 		/**
 		 *
 		 * @param x
 		 * @param y
 		 * @param label
-		 * @returns joint.shapes.basic.Rect
+		 * @param fill
+		 * @returns {joint.shapes.basic.Rect}
 		 */
-		var element = function( x, y, label, fill ) {
+		function element ( x, y, label, fill ) {
 
 			var new_element = new joint.shapes.basic.Rect( {
 				size: element_size,
@@ -69,16 +124,16 @@
 
 			graph.addCell( new_element );
 			return new_element;
-		};
+		}
 
 		/**
- 		 * @param elm1
+		 * @param elm1
 		 * @param elm2
 		 * @param label
 		 * @param bidirectional
-		 * @returns {Link}
+		 * @returns {joint.dia.Link}
 		 */
-		var link = function( elm1, elm2, label, bidirectional ) {
+		function link ( elm1, elm2, label, is_multi, bidirectional ) {
 
 			var new_link = new joint.dia.Link( {
 				source: { id: elm1.id },
@@ -92,15 +147,17 @@
 					'stroke-width': 2
 				},
 				'.marker-target': {
-					fill: '#bdc3c7',
+					fill: ( is_multi ) ? multi_fill : single_fill,
 					d: 'M 10 0 L 0 5 L 10 10 z'
 				}
 			} );
 
-			if ( bidirectional ) {
+			// Bi-directional?
+			if ( bidirectional.hasOwnProperty( 'sister_field_name' ) ) {
+
 				new_link.attr( {
 					'.marker-source': {
-						fill: '#bdc3c7',
+						fill: ( bidirectional[ 'is_multi' ] ) ? multi_fill : single_fill,
 						d: 'M 10 0 L 0 5 L 10 10 z'
 					}
 				} );
@@ -124,69 +181,7 @@
 
 			graph.addCell( new_link );
 			return new_link;
-		};
-
-		// Iterate the pods
-		var y = 10;
-		var x = 10;
-		for ( var pod_key in pod_data ) {
-
-			if ( !pod_data.hasOwnProperty( pod_key ) ) {
-				continue;
-			}
-
-			var this_pod = pod_data[ pod_key ];
-			var new_y = y;
-
-			var pod_element = element( x, y, this_pod.name, color_codes[ this_pod.type ] );
-
-			// Iterate the fields in this pod
-			for ( var field_key in this_pod.fields ) {
-
-				if ( !this_pod.fields.hasOwnProperty( field_key ) ) {
-					continue;
-				}
-
-				var this_field = this_pod.fields[ field_key ];
-
-				if ( 'pick' == this_field.type ) {
-
-					var related_element_name = '';
-					if ( 'pod' == this_field[ 'pick_object' ] ) {
-						related_element_name = this_field[ 'pick_val' ];
-					}
-					else {
-						related_element_name = this_field['pick_object'];
-					}
-
-					var related_element = element( x + x_offset, new_y, related_element_name, color_codes[ this_field[ 'pick_object' ] ] );
-					link ( pod_element, related_element, this_field.name, this_field[ 'sister_id' ] );
-
-					new_y += y_offset;
-				}
-			}
-
-			var parent_y = new_y - y;
-
-			// Any relationships?
-			if ( 0 != parent_y ) {
-
-				// Subtract out the final increment and center vertically
-				parent_y -= y_offset;
-				parent_y /= 2;
-			}
-			else {
-				// No relationships pushed the y offset, so add it
-				new_y += y_offset;
-			}
-
-			// Re-position the parent pod
-			pod_element.translate( x, parent_y );
-
-			y = new_y;
 		}
-
-		paper.fitToContent( 1, 1, 100 );
 
 	});
 

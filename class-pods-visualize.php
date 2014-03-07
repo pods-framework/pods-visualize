@@ -71,7 +71,7 @@ class Pods_Visualize {
 	 *
 	 * @since    1.0.0
 	 *
-	 * @return    Plugin slug variable.
+	 * @return  string  Plugin slug variable.
 	 */
 	public function get_plugin_slug() {
 		return $this->plugin_slug;
@@ -143,9 +143,8 @@ class Pods_Visualize {
 			wp_enqueue_script( $this->plugin_slug . '-admin-script', PODS_VISUALIZE_URL . 'includes/js/pods-visualize.js', array( 'jquery', 'jointjs' ), Pods_Visualize::VERSION );
 
 			// Pass pod and field info to the js
-			// ToDo: full data dump was for prototyping only.  Only send what is needed in a data structure ready to be consumed on the js side
-			$pods = pods_api()->load_pods();
-			wp_localize_script( $this->plugin_slug . '-admin-script', 'pods_visualization_data', $pods );
+			$visualize_data = $this->get_data();
+			wp_localize_script( $this->plugin_slug . '-admin-script', 'pods_visualization_data', $visualize_data );
 
 		}
 
@@ -180,6 +179,69 @@ class Pods_Visualize {
 		load_textdomain( $domain, trailingslashit( WP_LANG_DIR ) . $domain . '/' . $domain . '-' . $locale . '.mo' );
 		load_plugin_textdomain( $domain, FALSE, basename( plugin_dir_path( dirname( __FILE__ ) ) ) . '/languages/' );
 
+	}
+
+	/**
+	 * @return array
+	 */
+	private function get_data() {
+
+		$api = pods_api();
+		$all_pods = $api->load_pods();
+
+		$return_data = array();
+		foreach ( $all_pods as $this_pod_id => $this_pod ) {
+
+			$relationships = array();
+			foreach ( $this_pod[ 'fields' ] as $this_field_name => $this_field ) {
+
+				// Ignore everything except pick fields
+				if ( 'pick' != $this_field['type'] ) {
+					continue;
+				}
+
+				// Related element's name
+				$related_pod_name = ( 'pod' == $this_field[ 'pick_object' ] ) ? $this_field[ 'pick_val' ] : $this_field[ 'pick_object' ];
+
+				// Indicate single/multi
+				$is_multi = ( 'multi' == $this_field[ 'options' ][ 'pick_format_type' ] );
+
+				// Collect info if it's a bi-directional field
+				$bi_directional = array();
+				if ( !empty( $this_field[ 'sister_id' ] ) ) {
+
+					$related_pod = $api->load_pod( array( 'name' => $related_pod_name, 'table_info' => false ) );
+
+					foreach ( $related_pod[ 'fields' ] as $this_related_field ) {
+
+						if ( $this_related_field[ 'id' ] == $this_field[ 'sister_id' ] ) {
+
+							$bi_directional = array(
+								'sister_field_name' => $this_related_field[ 'name' ],
+								'is_multi' => ( 'multi' == $this_related_field[ 'options' ][ 'pick_format_type' ] )
+							);
+							break;
+						}
+					}
+				}
+
+				$relationships[ $this_field_name ] = array(
+					'related_pod_name' => $related_pod_name,
+					'type' => $this_field[ 'pick_object' ],
+					'is_multi' => $is_multi,
+					'bidirectional' => $bi_directional
+				);
+
+			}
+
+			$return_data[ $this_pod_id ] = array(
+				'name' => $this_pod[ 'name' ],
+				'type' => $this_pod[ 'type' ],
+				'relationships' => $relationships
+			);
+		}
+
+		return $return_data;
 	}
 
 }
