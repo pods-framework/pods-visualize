@@ -8,24 +8,24 @@
 		var single_fill = '#bdc3c7';
 		var multi_fill = '#dd2222';
 		var color_codes = {
-			'post_type': '#88aacc',
-			'cpt': '#88aacc',
-			'taxonomy': '#FBEC5D',
-			'ct': '#FBEC5D',
-			'user': '#CDB38B',
-			'media': '#FFA54F',
-			'comment': '#ecf0f1',
-			'pod': '#A2C257',
-			'settings': '#dddde5',
-			'custom-simple': '#ffffff'
+			'post_type': '#06c0f1',
+			'cpt': '#06c0f1',
+			'taxonomy': '#546e7d',
+			'ct': '#f7a458',
+			'user': '#5e53a2',
+			'media': '#9f7d7e',
+			'comment': '#ef5549',
+			'pod': '#8dbc6c',
+			'settings': '#00ada4',
+			'custom-simple': '#ba81b8'
 		};
 
 		// ToDo: Magic numbers
-		var y_offset = 70;
-		var x_offset = 400;
+		var y_offset = 85;
+		var x_offset = 600;
 		var element_size = {
-			width: 200,
-			height: 50
+			width: 250,
+			height: 60
 		};
 
 		var graph = new joint.dia.Graph;
@@ -108,16 +108,16 @@
 			new_element.attr( {
 				rect: {
 					fill: fill,
-					rx: 5,
-					ry: 10,
-					'stroke-width': "2",
-					stroke: '#bdc3c7'
+					//rx: 5,
+					//ry: 10,
+					'stroke-width': "0"
+					//stroke: '#bdc3c7'
 				},
 				text: {
 					text: label,
-					fill: '#000000',
-					'font-family': 'Courier New',
-					'font-size': 12,
+					fill: '#ffffff',
+					'font-family': 'Times',
+					'font-size': 20,
 					'font-weight': 'normal'
 				}
 			} );
@@ -143,7 +143,8 @@
 			// Link attributes
 			new_link.attr( {
 				'.connection': {
-					stroke: '#bdc3c7',
+					stroke: '#646d72',
+					'stroke-dasharray': '2 4',
 					'stroke-width': 2
 				},
 				'.marker-target': {
