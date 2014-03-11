@@ -157,6 +157,9 @@
 			if ( bidirectional.hasOwnProperty( 'sister_field_name' ) ) {
 
 				new_link.attr( {
+					'.connection': {
+						'stroke-dasharray': ''
+					},
 					'.marker-source': {
 						fill: ( bidirectional[ 'is_multi' ] ) ? multi_fill : single_fill,
 						d: 'M 10 0 L 0 5 L 10 10 z'
