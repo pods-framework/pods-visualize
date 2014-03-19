@@ -62,8 +62,8 @@ class Pods_Visualize {
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_admin_styles' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_admin_scripts' ) );
 
-		// Add the menu item.
-		add_action( 'admin_menu', array( $this, 'add_plugin_admin_menu' ) );
+		// Add the menu item to Pods Admin menu
+		add_filter( 'pods_admin_menu', array( $this, 'add_plugin_admin_menu' ) );
 	}
 
 	/**
@@ -97,17 +97,19 @@ class Pods_Visualize {
 	/**
 	 * Register the menu
 	 *
+	 * @uses 	pods_admin_menu filter.
+	 *
 	 * @since    1.0.0
 	 */
-	public function add_plugin_admin_menu() {
+	public function add_plugin_admin_menu( $admin_menus ) {
+		$admin_menus[ $this->plugin_slug ] = array(
+			'label' 	=> __( 'Pods Visualize', $this->plugin_slug ),
+			'function' 	=> array( $this, 'display_plugin_admin_page' ),
+			'access' 	=> 'manage_options'
 
-		$this->plugin_screen_hook_suffix = add_management_page(
-			__( 'Pods Visualize', $this->plugin_slug ),
-			__( 'Pods Visualize', $this->plugin_slug ),
-			'manage_options',
-			$this->plugin_slug,
-			array( $this, 'display_plugin_admin_page' )
 		);
+		return $admin_menus;
+
 	}
 
 	/**
