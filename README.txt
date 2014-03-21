@@ -8,6 +8,6 @@ Stable tag: 1.0.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Visualize your Pods Framework relationships at a high-level with a simple diagram.  No learning curve.  A menu item is created under tools; you click, you see.
+Visualize your Pods Framework relationships at a high-level with a simple diagram.  No learning curve.  A menu item is created under the Pods Admin menu; you click, you see.
 
 Requires Pods Framework version 2.3.18 or later.
