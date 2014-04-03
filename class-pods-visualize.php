@@ -151,6 +151,7 @@ class Pods_Visualize {
 		if ( $this->plugin_screen_hook_suffix == $screen->id  && function_exists( 'pods' ) ) {
 
 			wp_enqueue_script( 'jointjs', PODS_VISUALIZE_URL . 'includes/jointjs/joint.min.js' );
+			wp_enqueue_script( 'jointjs-pods', PODS_VISUALIZE_URL . 'includes/js/jointjs-pods.js', array( 'jquery', 'jointjs' ), Pods_Visualize::VERSION );
 			wp_enqueue_script( $this->plugin_slug . '-admin-script', PODS_VISUALIZE_URL . 'includes/js/pods-visualize.js', array( 'jquery', 'jointjs' ), Pods_Visualize::VERSION );
 
 			// Pass pod and field info to the js

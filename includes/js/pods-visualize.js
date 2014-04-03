@@ -23,10 +23,6 @@
 		// ToDo: Magic numbers
 		var y_offset = 85;
 		var x_offset = 600;
-		var element_size = {
-			width: 250,
-			height: 60
-		};
 
 		var graph = new joint.dia.Graph;
 
@@ -51,7 +47,7 @@
 			var this_pod = pod_data[ pod_key ];
 			var new_y = y;
 
-			var pod_element = element( x, y, this_pod[ 'name' ], color_codes[ this_pod[ 'type' ] ] );
+			var pod_element = element( x, y, this_pod[ 'name' ], color_codes[ this_pod[ 'type' ] ], false );
 
 			// Iterate the fields in this pod
 			for ( var relationship_field_name in this_pod[ 'relationships' ] ) {
@@ -62,7 +58,7 @@
 
 				var this_relationship = this_pod[ 'relationships' ][ relationship_field_name ];
 
-				var related_element = element( x + x_offset, new_y, this_relationship[ 'related_pod_name' ], color_codes[ this_relationship[ 'type' ] ] );
+				var related_element = element( x + x_offset, new_y, this_relationship[ 'related_pod_name' ], color_codes[ this_relationship[ 'type' ] ], true );
 				link ( pod_element, related_element, relationship_field_name, this_relationship[ 'is_multi' ], this_relationship[ 'bidirectional' ] );
 
 				new_y += y_offset;
@@ -96,29 +92,29 @@
 		 * @param y
 		 * @param label
 		 * @param fill
-		 * @returns {joint.shapes.basic.Rect}
+		 * @param related
+		 * @returns {joint.shapes.basic.Pod} | {joint.shapes.basic.PodsRelationship}
 		 */
-		function element ( x, y, label, fill ) {
+		function element ( x, y, label, fill, related ) {
 
-			var new_element = new joint.shapes.basic.Rect( {
-				size: element_size,
-				position: { x: x,  y: y }
-			} );
+			var new_element;
+			if ( related ) {
+				new_element = new joint.shapes.basic.PodsRelationship( {
+					position: { x: x,  y: y }
+				} );
+			}
+			else {
+				new_element = new joint.shapes.basic.Pod( {
+					position: { x: x,  y: y }
+				} );
+			}
 
 			new_element.attr( {
-				rect: {
-					fill: fill,
-					//rx: 5,
-					//ry: 10,
-					'stroke-width': "0"
-					//stroke: '#bdc3c7'
+				'rect.pod': {
+					fill: fill
 				},
 				text: {
-					text: label,
-					fill: '#ffffff',
-					'font-family': 'Times',
-					'font-size': 20,
-					'font-weight': 'normal'
+					text: label
 				}
 			} );
 
@@ -130,6 +126,7 @@
 		 * @param elm1
 		 * @param elm2
 		 * @param label
+		 * @param is_multi
 		 * @param bidirectional
 		 * @returns {joint.dia.Link}
 		 */
@@ -137,7 +134,10 @@
 
 			var new_link = new joint.dia.Link( {
 				source: { id: elm1.id },
-				target: { id: elm2.id }
+				target: {
+					id: elm2.id,
+					selector: '.magnet'
+				}
 			} );
 
 			// Link attributes
@@ -172,7 +172,7 @@
 
 			// Link label
 			new_link.label( 0, {
-				position: .7,
+				position: .8,
 				attrs: {
 					text: {
 						text: label,
