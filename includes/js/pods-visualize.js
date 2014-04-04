@@ -165,6 +165,17 @@
 						d: 'M 10 0 L 0 5 L 10 10 z'
 					}
 				} );
+
+				new_link.label( 1, {
+					position: 50,
+					attrs: {
+						text: {
+							text: bidirectional[ 'sister_field_name' ],
+							'font-family': 'Courier New',
+							'font-size': 11
+						}
+					}
+				} );
 			}
 
 			// Link presentation
@@ -172,7 +183,7 @@
 
 			// Link label
 			new_link.label( 0, {
-				position: .8,
+				position: -50,
 				attrs: {
 					text: {
 						text: label,
