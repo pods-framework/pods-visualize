@@ -247,13 +247,14 @@ class Pods_Visualize {
 
 			}
 
-			$return_data[ $this_pod_id ] = array(
+			$return_data[ $this_pod[ 'name' ] ] = array(
 				'name' => $this_pod[ 'name' ],
 				'type' => $this_pod[ 'type' ],
 				'relationships' => $relationships
 			);
 		}
 
+		ksort( $return_data );
 		return $return_data;
 	}
 
