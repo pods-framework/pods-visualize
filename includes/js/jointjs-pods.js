@@ -19,24 +19,6 @@ joint.shapes.basic.Pod = joint.shapes.basic.Generic.extend( {
 		'custom-simple' : '#ba81b8'
 	},
 
-	initialize: function() {
-
-		joint.shapes.basic.Generic.prototype.initialize.apply(this, arguments);
-
-		/**
-		 * Pods specific stuff
-		 */
-		this.attr( {
-			'rect.pod': {
-				fill: this.color_codes[ this.get( 'pod_type' ) ]
-			},
-			text: {
-				text: this.get( 'pod_name' )
-			}
-		} );
-
-	},
-
 	defaults : joint.util.deepSupplement( {
 
 		type : 'basic.Pod',
@@ -76,7 +58,29 @@ joint.shapes.basic.Pod = joint.shapes.basic.Generic.extend( {
 			}
 		}
 
-	}, joint.shapes.basic.Generic.prototype.defaults )
+	}, joint.shapes.basic.Generic.prototype.defaults ),
+
+	/**
+	 *
+	 */
+	initialize: function() {
+
+		joint.shapes.basic.Generic.prototype.initialize.apply(this, arguments);
+
+		/**
+		 * Pods specific stuff
+		 */
+		this.attr( {
+			'rect.pod': {
+				fill: this.color_codes[ this.get( 'pod_type' ) ]
+			},
+			text: {
+				text: this.get( 'pod_name' )
+			}
+		} );
+
+	}
+
 } );
 
 /**
@@ -88,6 +92,28 @@ joint.dia.PodsLink = joint.dia.Link.extend( {
 	single_fill: '#bdc3c7',
 	multi_fill: '#dd2222',
 
+	defaults : joint.util.deepSupplement( {
+
+		type : 'PodsLink',
+
+		smooth: true,
+
+		target: { selector: '.magnet' },
+
+		attrs : {
+			'.connection': {
+				stroke: '#646d72',
+				'stroke-dasharray': '2 4',
+				'stroke-width': 2
+			}
+
+		}
+
+	}, joint.dia.Link.prototype.defaults ),
+
+	/**
+	 *
+	 */
 	initialize: function() {
 
 		joint.dia.Link.prototype.initialize.apply(this, arguments);
@@ -136,24 +162,6 @@ joint.dia.PodsLink = joint.dia.Link.extend( {
 				}
 			}
 		} );
-
-	},
-
-	defaults : joint.util.deepSupplement( {
-
-		type : 'PodsLink',
-
-		smooth: true,
-
-		attrs : {
-			'.connection': {
-				stroke: '#646d72',
-				'stroke-dasharray': '2 4',
-				'stroke-width': 2
-			}
-
-		}
-
-	}, joint.dia.Link.prototype.defaults )
+	}
 
 } );

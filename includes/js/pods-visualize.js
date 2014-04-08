@@ -17,8 +17,8 @@ pods_visualize.render = function( element, pod_data ) {
 	this.graph = new joint.dia.Graph;
 
 	this.paper = new joint.dia.Paper( {
-		linkView: joint.dia.LinkView,
 		el: element,
+		// ToDo: Magic numbers
 		width: 800,
 		height: 600,
 		gridSize: 1,
@@ -28,12 +28,13 @@ pods_visualize.render = function( element, pod_data ) {
 	var new_link;
 
 	// ToDo: Magic numbers
+	// ToDo: move placement outta here
 	var y_offset = 85;
 	var x_offset = 600;
-
-	// Iterate the pods
 	var y = 10;
 	var x = 10;
+
+	// Iterate the pods
 	for ( var pod_key in pod_data ) {
 
 		if ( !pod_data.hasOwnProperty( pod_key ) ) {
@@ -41,13 +42,14 @@ pods_visualize.render = function( element, pod_data ) {
 		}
 
 		var this_pod = pod_data[ pod_key ];
-		var new_y = y;
+		var new_y = y; // ToDo: move placement outta here
 
+		// Create the shape for the parent Pod
 		var pod_element = new joint.shapes.basic.Pod( {
 			pod_name: this_pod[ 'name' ],
 			pod_type: this_pod[ 'type' ]
 		} );
-		pod_element.translate( x, y );
+		pod_element.translate( x, y ); // ToDo: move placement outta here
 		this.graph.addCell( pod_element );
 
 		// Iterate the fields in this pod
@@ -59,31 +61,29 @@ pods_visualize.render = function( element, pod_data ) {
 
 			var this_relationship = this_pod[ 'relationships' ][ relationship_field_name ];
 
+			// Create the shape for this related Pod
 			var related_element = new joint.shapes.basic.Pod( {
 				pod_name: this_relationship[ 'related_pod_name' ],
 				pod_type: this_relationship[ 'type' ]
 			} );
-			//var related_element = this.element( this_relationship[ 'related_pod_name' ], this_relationship[ 'type' ] );
-			related_element.translate( x + x_offset, new_y );
+			related_element.translate( x + x_offset, new_y ); // ToDo: move placement outta here
 			this.graph.addCell( related_element );
 
-
+			// Link the parent Pod and this relationship
 			new_link = new joint.dia.PodsLink( {
+				source: { id: pod_element.id },
+				target: { id: related_element.id },
 				relationship_label: relationship_field_name,
 				is_multi: this_relationship[ 'is_multi' ],
-				bidirectional: this_relationship[ 'bidirectional' ],
-				source: { id: pod_element.id },
-				target: {
-					id: related_element.id,
-					selector: '.magnet'
-				}
+				bidirectional: this_relationship[ 'bidirectional' ]
 			} );
 
 			this.graph.addCell( new_link );
 
-			new_y += y_offset;
+			new_y += y_offset; // ToDo: move placement outta here
 		}
 
+		// ToDo: move placement outta here
 		var parent_y = new_y - y;
 
 		// Any relationships?
