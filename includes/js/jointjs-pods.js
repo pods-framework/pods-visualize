@@ -105,8 +105,10 @@ joint.dia.PodsLink = joint.dia.Link.extend( {
 				stroke: '#646d72',
 				'stroke-dasharray': '2 4',
 				'stroke-width': 2
+			},
+			'.marker-target': {
+				d: 'M 10 0 L 0 5 L 10 10 z'
 			}
-
 		}
 
 	}, joint.dia.Link.prototype.defaults ),
@@ -121,8 +123,7 @@ joint.dia.PodsLink = joint.dia.Link.extend( {
 		// Link attributes
 		this.attr( {
 			'.marker-target': {
-				fill: ( this.get('is_multi') ) ? this.multi_fill : this.single_fill,
-				d: 'M 10 0 L 0 5 L 10 10 z'
+				fill: ( this.get('is_multi') ) ? this.multi_fill : this.single_fill
 			}
 		} );
 
@@ -144,7 +145,6 @@ joint.dia.PodsLink = joint.dia.Link.extend( {
 				attrs: {
 					text: {
 						text: this.get( 'bidirectional' ).sister_field_name,
-						'font-family': 'Courier New',
 						'font-size': 11
 					}
 				}
@@ -157,7 +157,6 @@ joint.dia.PodsLink = joint.dia.Link.extend( {
 			attrs: {
 				text: {
 					text: this.get( 'relationship_label' ),
-					'font-family': 'Courier New',
 					'font-size': 11
 				}
 			}
