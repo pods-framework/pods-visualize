@@ -1,0 +1,31 @@
+{
+    "name": "pods-framework/pods-visualize",
+    "description": "Visualize your Pods Framework relationships at a high-level with a simple diagram.  No learning curve.  A menu item is created under the Pods Admin menu; you click, you see.",
+    "type": "wordpress-plugin",
+    "keywords": ["pods", "wordpress"],
+    "homepage": "https://github.com/pods-framework/pods-visualize",
+    "require": {
+        "php": ">=5.3"
+    },
+    "license": "GPL-2.0",
+    "authors": [
+        {
+            "name" : "Phil Lewis",
+            "email" : "phil@pods.io",
+            "role" : "Developer"
+        },
+        {
+            "name": "Pods Framework Team",
+            "email": "contact@pods.io",
+            "homepage": "http://pods.io/"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/pods-framework/pods-visualize/issues",
+        "source": "https://github.com/pods-framework/pods-visualize"
+    },
+    "require": {
+        "composer/installers": "~1.0",
+        "wpackagist-plugin/pods": ">=2.3.18"
+    }
+}
