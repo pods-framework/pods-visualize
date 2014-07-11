@@ -32,6 +32,7 @@ joint.shapes.basic.Pod = joint.shapes.basic.Generic.extend( {
 			'rect.pod' : {
 				stroke : '',
 				'stroke-width' : "0",
+				fill: '#333333',
 				width : 1,
 				height : 1
 			},
