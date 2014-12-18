@@ -214,7 +214,23 @@ class Pods_Visualize {
 				}
 
 				// Related element's name
-				$related_pod_name = ( 'pod' == $this_field[ 'pick_object' ] ) ? $this_field[ 'pick_val' ] : $this_field[ 'pick_object' ];
+				if ( 'pod' == $this_field[ 'pick_object' ] ) {
+
+					$related_pod_name = $this_field[ 'pick_val' ];
+				}
+				else {
+
+					$check = $api->get_table_info( $this_field[ 'pick_object' ], $this_field[ 'pick_val' ] );
+
+					if ( !empty( $check ) && !empty( $check[ 'pod' ] ) ) {
+
+						$related_pod_name = $check[ 'pod' ][ 'name' ];
+					}
+					else {
+						
+						$related_pod_name = $check[ 'object_name' ];
+					}
+				}
 
 				// Indicate single/multi
 				$is_multi = ( 'multi' == $this_field[ 'options' ][ 'pick_format_type' ] );
