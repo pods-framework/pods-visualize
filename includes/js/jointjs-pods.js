@@ -165,3 +165,7 @@ joint.dia.PodsLink = joint.dia.Link.extend( {
 	}
 
 } );
+
+SVGElement.prototype.getTransformToElement = SVGElement.prototype.getTransformToElement || function(toElement) {
+    return toElement.getScreenCTM().inverse().multiply(this.getScreenCTM());
+};
