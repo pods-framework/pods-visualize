@@ -166,6 +166,7 @@ joint.dia.PodsLink = joint.dia.Link.extend( {
 
 } );
 
+// @todo: Chrome dropped support https://github.com/cpettitt/dagre-d3/issues/202 may need to evaluate if this is the best locaiton for the polyfill to live
 SVGElement.prototype.getTransformToElement = SVGElement.prototype.getTransformToElement || function(toElement) {
     return toElement.getScreenCTM().inverse().multiply(this.getScreenCTM());
-};
+};	
