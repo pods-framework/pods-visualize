@@ -150,7 +150,7 @@ class Pods_Visualize {
 		$screen = get_current_screen();
 		if ( $this->plugin_screen_hook_suffix == $screen->id  && function_exists( 'pods' ) ) {
 
-			wp_enqueue_script( 'jointjs', PODS_VISUALIZE_URL . 'includes/jointjs/joint.min.js' );
+			wp_enqueue_script( 'jointjs', PODS_VISUALIZE_URL . 'includes/jointjs/joint.min.js', array( 'jquery', 'backbone', 'underscore' ) );
 			wp_enqueue_script( 'jointjs-pods', PODS_VISUALIZE_URL . 'includes/js/jointjs-pods.js', array( 'jquery', 'jointjs' ), Pods_Visualize::VERSION );
 			wp_enqueue_script( $this->plugin_slug . '-admin-script', PODS_VISUALIZE_URL . 'includes/js/pods-visualize.js', array( 'jquery', 'jointjs' ), Pods_Visualize::VERSION );
 
@@ -227,7 +227,7 @@ class Pods_Visualize {
 						$related_pod_name = $check[ 'pod' ][ 'name' ];
 					}
 					else {
-						
+
 						$related_pod_name = $check[ 'object_name' ];
 					}
 				}
